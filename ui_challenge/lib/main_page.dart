@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:ui_challenge/my_app.dart';
 import 'package:provider/provider.dart';
+import 'leopard_page.dart';
 
   class PageOffsetNotifier with ChangeNotifier {
 
