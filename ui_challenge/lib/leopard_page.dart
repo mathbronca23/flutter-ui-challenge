@@ -37,7 +37,7 @@ class TravelDescriptionLabel extends StatelessWidget {
         padding: const EdgeInsets.only(left: 30.0),
         child: Text(
           'Travel Description',
-          style: TextStyle(fontSize: 18),
+          style: TextStyle(fontSize: 18, fontWeight: FontWeight.w300),
         ),
       ),
     );
@@ -59,7 +59,14 @@ class LeopardDescription extends StatelessWidget {
         child: Text(
           'The leopard is distinguished by its well-camouflaged fur, opportunistic hunting behaviour, broad diet, and strength.',
           style:
-              TextStyle(letterSpacing: 0.8, fontSize: 13.4, color: lightGrey),
+              TextStyle(
+                letterSpacing: 0.8,
+                fontSize: 13.3,
+                color: lighterGrey,
+                fontWeight: FontWeight.w300,
+                height: 1.7
+                ),
+                textAlign: TextAlign.justify,
         ),
       ),
     );

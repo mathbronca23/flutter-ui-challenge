@@ -55,20 +55,6 @@ class PageIndicator extends StatelessWidget {
   }
 }
 
-class ArrowIcon extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Positioned(
-      top: (16 + 24 + 16 + 400 + 38).toDouble() ,
-      right: 24,
-      child: Icon(Icons.keyboard_arrow_down,
-      color: lighterGrey,
-      size: 28,),
-      
-    );
-  }
-}
-
 class ShareButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
