@@ -96,7 +96,7 @@ class _MainPageState extends State<MainPage>
         _animationController.status == AnimationStatus.completed) return;
 
     final double flingVelocity =
-        details.velocity.pixelsPerSecond.dy / maxHeight;
+        (details.velocity.pixelsPerSecond.dy / maxHeight);
 
     if (flingVelocity < 0.0)
       _animationController.fling(velocity: math.max(2.0, -flingVelocity));
@@ -104,7 +104,7 @@ class _MainPageState extends State<MainPage>
       _animationController.fling(velocity: math.min(-2.0, -flingVelocity));
     else
       _animationController.fling(
-          velocity: _animationController.value < 0.5 ? -2.0 : 2.0);
+          velocity: _animationController.value < 0.5 ? -2.0: 2.0);
   }
 }
 
@@ -456,7 +456,7 @@ class VultureIcon extends StatelessWidget {
               children: <Widget>[
                 Container(
                 width: 30,
-                padding: EdgeInsets.only(bottom: 16),
+                padding: EdgeInsets.only(bottom: 8),
                 child: Image.asset('assets/vultures.png')),
                 Text('Vultures',
                 style: TextStyle(
@@ -490,8 +490,8 @@ class LeopardIcon extends StatelessWidget {
                       child: Column(            
               children: <Widget>[
                 Container(
-                width: 30,
-                padding: EdgeInsets.only(bottom: 16),
+                width: 40,
+                padding: EdgeInsets.only(bottom: 8),
                 child: Image.asset('assets/leopards.png')),
                 Text('Leopards',
                 style: TextStyle(
@@ -605,7 +605,7 @@ class LeopardImage extends StatelessWidget {
               'assets/leopard_shadow.png',
               colorBlendMode: BlendMode.hue,
             ),
-            Image.asset('assets/leopard.png')
+            Image.asset('assets/leopard.png',)
           ],
         )));
   }
