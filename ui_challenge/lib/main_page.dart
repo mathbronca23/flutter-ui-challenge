@@ -26,20 +26,18 @@ class MainPage extends StatefulWidget {
   _MainPageState createState() => _MainPageState();
 }
 
-class _MainPageState extends State<MainPage>  with SingleTickerProviderStateMixin {
-
+class _MainPageState extends State<MainPage>
+    with SingleTickerProviderStateMixin {
   AnimationController _animationController;
   final PageController _pageController = PageController();
-  
+
   double get maxHeight => 400;
 
   @override
   void initState() {
     super.initState();
-      _animationController = AnimationController(
-      vsync: this,
-      duration: Duration(milliseconds: 1000)
-    );
+    _animationController = AnimationController(
+        vsync: this, duration: Duration(milliseconds: 1000));
   }
 
   @override
@@ -47,13 +45,13 @@ class _MainPageState extends State<MainPage>  with SingleTickerProviderStateMixi
     return ChangeNotifierProvider(
       builder: (_) => PageOffsetNotifier(_pageController),
       child: ListenableProvider.value(
-              value: _animationController,
-              child: Scaffold(
+        value: _animationController,
+        child: Scaffold(
             body: SafeArea(
-              child: GestureDetector(
-                onVerticalDragUpdate: _handleDragUpdate,
-                onVerticalDragEnd: _handleDragEnd,
-                child: Stack(
+          child: GestureDetector(
+            onVerticalDragUpdate: _handleDragUpdate,
+            onVerticalDragEnd: _handleDragEnd,
+            child: Stack(
               alignment: Alignment.centerLeft,
               children: <Widget>[
                 PageView(
@@ -79,34 +77,36 @@ class _MainPageState extends State<MainPage>  with SingleTickerProviderStateMixi
                 HorizontalTravelDots(),
                 MapButton(),
                 VerticalTravelDots(),
+                VultureIcon(),
+                LeopardIcon(),
               ],
             ),
-              ),
-            )),
+          ),
+        )),
       ),
     );
   }
 
-void _handleDragUpdate(DragUpdateDetails details) {
-  _animationController.value -= details.primaryDelta / maxHeight;
-}
+  void _handleDragUpdate(DragUpdateDetails details) {
+    _animationController.value -= details.primaryDelta / maxHeight;
+  }
 
-void _handleDragEnd(DragEndDetails details) {
-  if(_animationController.isAnimating || _animationController.status == AnimationStatus.completed) return;
+  void _handleDragEnd(DragEndDetails details) {
+    if (_animationController.isAnimating ||
+        _animationController.status == AnimationStatus.completed) return;
 
-  
-  final double flingVelocity = details.velocity.pixelsPerSecond.dy / maxHeight;
+    final double flingVelocity =
+        details.velocity.pixelsPerSecond.dy / maxHeight;
 
-  if(flingVelocity < 0.0)
-    _animationController.fling(velocity: math.max(2.0, -flingVelocity));
-  else if(flingVelocity > 0.0)
-    _animationController.fling(velocity: math.min(-2.0, -flingVelocity));
-  else
-    _animationController.fling(velocity: _animationController.value < 0.5 ? -2.0 : 2.0);
+    if (flingVelocity < 0.0)
+      _animationController.fling(velocity: math.max(2.0, -flingVelocity));
+    else if (flingVelocity > 0.0)
+      _animationController.fling(velocity: math.min(-2.0, -flingVelocity));
+    else
+      _animationController.fling(
+          velocity: _animationController.value < 0.5 ? -2.0 : 2.0);
   }
 }
-
-
 
 class AppBar extends StatelessWidget {
   @override
@@ -136,18 +136,18 @@ class ArrowIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<AnimationController>(
-      builder: (context, animation, child){
+      builder: (context, animation, child) {
         return Positioned(
-        top: 80 + (1 - animation.value) * (400 + 38 -24),
-        right: 24,
-        child: child
-        );
+            top: 80 + (1 - animation.value) * (400 + 38 - 24),
+            right: 24,
+            child: child);
       },
-          child: Icon(Icons.keyboard_arrow_down,
+      child: Icon(
+        Icons.keyboard_arrow_down,
         color: lighterGrey,
-        size: 28,),
-        
-      );
+        size: 28,
+      ),
+    );
   }
 }
 
@@ -240,7 +240,7 @@ class BaseCampLabel extends StatelessWidget {
         return Positioned(
           width: (MediaQuery.of(context).size.width - 48) / 3,
           right: opacity * 24.0,
-          top: 90.0 + (1 -animation.value) * 400 + 24 + 32,
+          top: 90.0 + (1 - animation.value) * 400 + 24 + 32,
           child: Opacity(
             opacity: opacity,
             child: child,
@@ -267,7 +267,7 @@ class BaseTimeLabel extends StatelessWidget {
         return Positioned(
           width: (MediaQuery.of(context).size.width - 48) / 3,
           right: opacity * 24.0,
-          top: 90.0  + (1 - animation.value) * 400 + 24 + 32 + 40,
+          top: 90.0 + (1 - animation.value) * 400 + 24 + 32 + 40,
           child: Opacity(
             opacity: opacity,
             child: child,
@@ -316,22 +316,24 @@ class MapButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Positioned(
-        left: 8,
-        bottom: 2,
-          child: Consumer<PageOffsetNotifier>(
-        builder: (context, notifier, child){
+      left: 8,
+      bottom: 2,
+      child: Consumer<PageOffsetNotifier>(
+        builder: (context, notifier, child) {
           double opacity = math.max(0, 4 * notifier.page - 3);
           return Opacity(
-                opacity:  opacity,
-                child: child,
+            opacity: opacity,
+            child: child,
           );
         },
-            child: FlatButton(
-            child: Text("ON MAP",
-            style: TextStyle(fontSize: 12),),
-            onPressed: (){
-              Provider.of<AnimationController>(context).forward();
-            },
+        child: FlatButton(
+          child: Text(
+            "ON MAP",
+            style: TextStyle(fontSize: 12),
+          ),
+          onPressed: () {
+            Provider.of<AnimationController>(context).forward();
+          },
         ),
       ),
     );
@@ -342,28 +344,23 @@ class VultureCircle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer2<PageOffsetNotifier, AnimationController>(
-      builder: (context, notifier, animation, child){
+        builder: (context, notifier, animation, child) {
+      double multiplier;
 
-        double multiplier;
+      if (animation.value == 0) {
+        multiplier = math.max(0, 4 * notifier.page - 3);
+      } else {
+        multiplier = math.max(0, 1 - 3 * animation.value);
+      }
 
-        if(animation.value == 0){
-          multiplier = math.max(0, 4 * notifier.page - 3);
-        } else {
-          multiplier = math.max(0, 1 - 3 * animation.value);
-        }
-        
-        double size = MediaQuery.of(context).size.width * 0.52 * multiplier;
-        return Container(
-          margin: EdgeInsets.only(bottom: 250),
-        decoration: BoxDecoration(
-          shape: BoxShape.circle,
-          color: lightGrey
-        ),
+      double size = MediaQuery.of(context).size.width * 0.52 * multiplier;
+      return Container(
+        margin: EdgeInsets.only(bottom: 250),
+        decoration: BoxDecoration(shape: BoxShape.circle, color: lightGrey),
         width: size,
         height: size,
       );
-      }
-    );
+    });
   }
 }
 
@@ -372,13 +369,12 @@ class HorizontalTravelDots extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer2<PageOffsetNotifier, AnimationController>(
       builder: (context, notifier, animation, child) {
-        double opacity =  math.max(0, 4 * notifier.page - 3);
+        double opacity = math.max(0, 4 * notifier.page - 3);
         double multiplier;
 
-        if(animation.value == 0){
-          multiplier =  math.max(0, 4 * notifier.page - 3);
-        }
-        else {
+        if (animation.value == 0) {
+          multiplier = math.max(0, 4 * notifier.page - 3);
+        } else {
           multiplier = math.max(0, 1 - 4 * animation.value);
         }
 
@@ -392,20 +388,19 @@ class HorizontalTravelDots extends StatelessWidget {
               child: Stack(
                 alignment: Alignment.center,
                 children: <Widget>[
-                                    Container(
-                    margin: EdgeInsets.only(right: multiplier * 40),                    
+                  Container(
+                    margin: EdgeInsets.only(right: multiplier * 40),
                     decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      border: Border.all(color: white)
-                    ),
+                        shape: BoxShape.circle,
+                        border: Border.all(color: white)),
                     width: 8,
                     height: 8,
-                  ),                  
+                  ),
                   Container(
                     margin: EdgeInsets.only(left: multiplier * 10),
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: lightGrey,
+                      color: multiplier < 0.4 ? Colors.transparent : lightGrey,
                     ),
                     width: 4,
                     height: 4,
@@ -414,22 +409,95 @@ class HorizontalTravelDots extends StatelessWidget {
                     margin: EdgeInsets.only(right: multiplier * 10),
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: lightGrey,
+                      color: multiplier < 0.4 ? Colors.transparent : lightGrey,
                     ),
                     width: 4,
                     height: 4,
                   ),
-                  Container(
-                    margin: EdgeInsets.only(left: multiplier * 40),
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: white,
+                  Opacity(
+                    opacity: multiplier.ceilToDouble(),
+                                      child: Container(
+                      margin: EdgeInsets.only(left: multiplier * 40),
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: white,
+                      ),
+                      width: 8,
+                      height: 8,
                     ),
-                    width: 8,
-                    height: 8,
                   ),
                 ],
               ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
+
+class VultureIcon extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<AnimationController>(
+      builder: (context, animation, _){
+
+        double multiplier = 0;
+        
+        if(animation.value > 1/1.5)
+          multiplier = math.max(0, 1.5 * animation.value - 1 / 1.5);
+        return Positioned(
+          width: (MediaQuery.of(context).size.width - 48) / 2,
+          right: multiplier * 30,
+          bottom: 240,
+          child: Opacity(
+            opacity: multiplier,
+                      child: Column(            
+              children: <Widget>[
+                Container(
+                width: 30,
+                padding: EdgeInsets.only(bottom: 16),
+                child: Image.asset('assets/vultures.png')),
+                Text('Vultures',
+                style: TextStyle(
+                  fontWeight: FontWeight.w300
+                ),)
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
+
+class LeopardIcon extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<AnimationController>(
+      builder: (context, animation, _){
+
+        double multiplier = 0;
+        
+        if(animation.value > 1/1.5)
+          multiplier = math.max(0, 1.5 * animation.value - 1 / 1.5);
+        return Positioned(
+          width: (MediaQuery.of(context).size.width - 48) / 2,
+          left: multiplier * 30,
+          top: 240,
+          child: Opacity(
+            opacity: multiplier,
+                      child: Column(            
+              children: <Widget>[
+                Container(
+                width: 30,
+                padding: EdgeInsets.only(bottom: 16),
+                child: Image.asset('assets/leopards.png')),
+                Text('Leopards',
+                style: TextStyle(
+                  fontWeight: FontWeight.w300
+                ),)
+              ],
             ),
           ),
         );
@@ -443,28 +511,72 @@ class VerticalTravelDots extends StatelessWidget {
   Widget build(BuildContext context) {
     return Consumer<AnimationController>(
       builder: (context, animation, child) {
-        double multiplier;
+        double multiplier = 0;
 
-        if(animation.value < 1/3)
+        if (animation.value < 1 / 3)
           multiplier = 0;
         else
-          multiplier = math.max(0, 1.5 * (animation.value - 1/3));
+          multiplier = math.max(0, 1.5 * (animation.value - 1 / 3));
+
+          print(multiplier);
 
         return Stack(
           children: <Widget>[
-            Center(                
-                child: Transform(
-                  transform: Matrix4.diagonal3Values(1.0,multiplier, 1.0),
-                  origin: Offset(0, 440),
-                  child: Container(
-                  margin: EdgeInsets.only(top: 40),
-                  width: 2,
+            Center(
+              child: Transform(
+                transform: Matrix4.diagonal3Values(1.0, multiplier, 1.0),
+                origin: Offset(0, 435),
+                child: Container(
+                  margin: EdgeInsets.only(top: 35),
+                  width: 1,
                   height: 400,
                   color: white,
-          ),
                 ),
-            )],
-
+              ),
+            ),
+                       Center(
+              child: Container(
+                  margin: EdgeInsets.only(top: 440),
+                  transform: Matrix4.translationValues(0, -400 / 3 * multiplier.ceilToDouble(), 0),
+                  decoration: BoxDecoration(
+                      border: Border.all(
+                      color: multiplier <= 1 / 3 ? Colors.transparent : white, 
+                      width: 1.5),
+                    shape: BoxShape.circle,
+                    color: multiplier <= 1 / 3 ? Colors.transparent : mainBlack,
+                  ),
+                  width: 8,
+                  height: 8,
+                ),
+            ),
+             Center(
+              child: Container(
+                  margin: EdgeInsets.only(top: 440),
+                  transform: Matrix4.translationValues(0, -400 / 1.5 * multiplier.ceilToDouble(), 0),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: multiplier <= 1 / 1.5 ? Colors.transparent : white, 
+                      width: 1),
+                    color: multiplier <= 1 / 1.5 ? Colors.transparent : mainBlack,
+                  ),
+                  width: 8,
+                  height: 8,
+                ),
+            ),
+            Center(
+              child: Container(
+                  margin: EdgeInsets.only(top: 440),
+                  transform: Matrix4.translationValues(0, -400 * multiplier, 0),
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: multiplier == 0 ? Colors.transparent : white,
+                  ),
+                  width: 8,
+                  height: 8,
+                ),
+            ),
+          ],
         );
       },
     );
@@ -475,27 +587,27 @@ class LeopardImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer2<PageOffsetNotifier, AnimationController>(
-      builder: (context, notifier, animation, child) {
-        return Positioned(
-          left: notifier.offset == null ? 0 : -0.85 * notifier.offset,
-          width: MediaQuery.of(context).size.width * 1.6,
-          child: Transform.scale(
-                      alignment: Alignment(0.65, 0),
-                      scale: 1 - 0.1 * animation.value,
-                      child: Opacity(
-              opacity: 1 - 0.65 * animation.value,
-              child: child),
-          ),
-        );
-      },
-      child: IgnorePointer(
-        child: Stack(
+        builder: (context, notifier, animation, child) {
+          return Positioned(
+            left: notifier.offset == null ? 0 : -0.85 * notifier.offset,
+            width: MediaQuery.of(context).size.width * 1.6,
+            child: Transform.scale(
+              alignment: Alignment(0.65, 0),
+              scale: 1 - 0.1 * animation.value,
+              child: Opacity(opacity: 1 - 0.65 * animation.value, child: child),
+            ),
+          );
+        },
+        child: IgnorePointer(
+            child: Stack(
           children: <Widget>[
-            Image.asset('assets/leopard_shadow.png', colorBlendMode: BlendMode.hue,),
+            Image.asset(
+              'assets/leopard_shadow.png',
+              colorBlendMode: BlendMode.hue,
+            ),
             Image.asset('assets/leopard.png')
           ],
-        )
-    ));
+        )));
   }
 }
 
@@ -512,7 +624,7 @@ class VultureImage extends StatelessWidget {
                   0.85 * notifier.offset,
           child: Transform.scale(
             scale: 1 - 0.1 * animation.value,
-                      child: Opacity(
+            child: Opacity(
               opacity: 1 - 0.65 * animation.value,
               child: child,
             ),
