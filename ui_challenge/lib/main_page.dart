@@ -63,7 +63,8 @@ class _MainPageState extends State<MainPage> {
             BaseCampLabel(),
             BaseTimeLabel(),
             DistanceLabel(),
-            TravelDots()
+            TravelDots(),
+            MapButton(),
           ],
         ),
       )),
@@ -256,6 +257,51 @@ class DistanceLabel extends StatelessWidget {
   }
 }
 
+class MapButton extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Positioned(
+        left: 8,
+        bottom: 2,
+          child: Consumer<PageOffsetNotifier>(
+        builder: (context, notifier, child){
+          double opacity = math.max(0, 4 * notifier.page - 3);
+          return Opacity(
+                opacity:  opacity,
+                child: child,
+          );
+        },
+            child: FlatButton(
+            child: Text("ON MAP",
+            style: TextStyle(fontSize: 12),),
+            onPressed: (){},
+        ),
+      ),
+    );
+  }
+}
+
+class VultureCircle extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<PageOffsetNotifier>(
+      builder: (context, notifier, child){
+        double multiplier = math.max(0, 4 * notifier.page - 3);
+        double size = MediaQuery.of(context).size.width * 0.55 * multiplier;
+        return Container(
+          margin: EdgeInsets.only(bottom: 250),
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: lightGrey
+        ),
+        width: size,
+        height: size,
+      );
+      }
+    );
+  }
+}
+
 class TravelDots extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -272,11 +318,6 @@ class TravelDots extends StatelessWidget {
               child: Stack(
                 alignment: Alignment.center,
                 children: <Widget>[
-                                    Container(
-                    color: lightGrey,
-                    height: 1,
-                    width: opacity * 40,
-                  ),
                   Container(
                     margin: EdgeInsets.only(left: opacity * 40),
                     decoration: BoxDecoration(
@@ -335,9 +376,8 @@ class LeopardImage extends StatelessWidget {
         );
       },
       child: IgnorePointer(
-        child:Image.asset("assets/leopard.png",)
-      ),
-    );
+        child:Image.asset("assets/leopard.png"),
+    ));
   }
 }
 

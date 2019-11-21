@@ -83,7 +83,9 @@ class ShareButton extends StatelessWidget {
 class VulturePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Center(
+      child: VultureCircle(),
+    );
 
     // Center(child: Padding(
     //   padding: const EdgeInsets.only(bottom: 80.0),
