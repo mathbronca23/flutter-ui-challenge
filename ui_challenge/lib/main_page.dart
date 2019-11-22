@@ -444,26 +444,44 @@ class VultureIcon extends StatelessWidget {
 
         double multiplier = 0;
         
-        if(animation.value > 1/1.5)
-          multiplier = math.max(0, 1.5 * animation.value - 1 / 1.5);
+        if(animation.value < 1/1.5)
+          multiplier = 0;
+        else{
+          multiplier = (4 * (animation.value - 1/1.5)).clamp(0, 1.0);
+        }
+
         return Positioned(
           width: (MediaQuery.of(context).size.width - 48) / 2,
-          right: multiplier * 30,
-          bottom: 240,
+          right: multiplier * 35,
+          bottom: 234,
           child: Opacity(
             opacity: multiplier,
-                      child: Column(            
+                      child: Row(                     
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                  Container(
+                     alignment: Alignment.center,
+                     margin: EdgeInsets.only(right: 24, top: 50),
+                     width: 12,
+                     height: 1,
+                     color: white,
+                ),
+                          Column(            
               children: <Widget>[
                 Container(
                 width: 30,
-                padding: EdgeInsets.only(bottom: 8),
+                padding: EdgeInsets.only(bottom: 14),
                 child: Image.asset('assets/vultures.png')),
                 Text('Vultures',
                 style: TextStyle(
+                  fontSize: 14,
                   fontWeight: FontWeight.w300
                 ),)
               ],
             ),
+            
+                        ],
+                      ),
           ),
         );
       },
@@ -479,26 +497,44 @@ class LeopardIcon extends StatelessWidget {
 
         double multiplier = 0;
         
-        if(animation.value > 1/1.5)
-          multiplier = math.max(0, 1.5 * animation.value - 1 / 1.5);
+        if(animation.value < 1/1.5)
+          multiplier = 0;
+        else{
+          multiplier = (4 * (animation.value - 1/1.5)).clamp(0, 1.0);
+        }
+
         return Positioned(
           width: (MediaQuery.of(context).size.width - 48) / 2,
-          left: multiplier * 30,
-          top: 240,
+          left: multiplier * 35,
+          top: 245,
           child: Opacity(
             opacity: multiplier,
-                      child: Column(            
+                      child: Row(                     
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[                 
+                          Column(            
               children: <Widget>[
                 Container(
-                width: 40,
-                padding: EdgeInsets.only(bottom: 8),
+                width: 30,
+                padding: EdgeInsets.only(bottom: 14),
                 child: Image.asset('assets/leopards.png')),
                 Text('Leopards',
                 style: TextStyle(
+                  fontSize: 14,
                   fontWeight: FontWeight.w300
-                ),)
+                ),
+              ),
               ],
             ),
+             Container(
+                     alignment: Alignment.center,
+                     margin: EdgeInsets.only(left: 24, top: 31),
+                     width: 12,
+                     height: 1,
+                     color: white,
+                ),            
+                        ],
+                      ),
           ),
         );
       },
@@ -541,7 +577,7 @@ class VerticalTravelDots extends StatelessWidget {
                   decoration: BoxDecoration(
                       border: Border.all(
                       color: multiplier <= 1 / 3 ? Colors.transparent : white, 
-                      width: 1.5),
+                      width: 2),
                     shape: BoxShape.circle,
                     color: multiplier <= 1 / 3 ? Colors.transparent : mainBlack,
                   ),
@@ -557,7 +593,7 @@ class VerticalTravelDots extends StatelessWidget {
                     shape: BoxShape.circle,
                     border: Border.all(
                       color: multiplier <= 1 / 1.5 ? Colors.transparent : white, 
-                      width: 1),
+                      width: 2),
                     color: multiplier <= 1 / 1.5 ? Colors.transparent : mainBlack,
                   ),
                   width: 8,
