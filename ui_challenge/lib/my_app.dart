@@ -21,33 +21,35 @@ class PageIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<PageOffsetNotifier>(builder: (context, notifier, _) {
-      return Align(
-        alignment: Alignment.bottomCenter,
-        child: Padding(
-          padding: const EdgeInsets.only(bottom: 24.0),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              Container(
-                width: 6,
-                height: 6,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: notifier.page.round() == 0 ? white : lightGrey,
+      return MapHider(
+              child: Align(
+          alignment: Alignment.bottomCenter,
+          child: Padding(
+            padding: const EdgeInsets.only(bottom: 24.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Container(
+                  width: 6,
+                  height: 6,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: notifier.page.round() == 0 ? white : lightGrey,
+                  ),
                 ),
-              ),
-              SizedBox(
-                width: 8,
-              ),
-              Container(
-                width: 6,
-                height: 6,
-                decoration:
-                    BoxDecoration(
-                      shape: BoxShape.circle, 
-                      color: notifier.page.round() == 0 ? lightGrey : white),
-              ),
-            ],
+                SizedBox(
+                  width: 8,
+                ),
+                Container(
+                  width: 6,
+                  height: 6,
+                  decoration:
+                      BoxDecoration(
+                        shape: BoxShape.circle, 
+                        color: notifier.page.round() == 0 ? lightGrey : white),
+                ),
+              ],
+            ),
           ),
         ),
       );

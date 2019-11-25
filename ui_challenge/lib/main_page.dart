@@ -181,17 +181,19 @@ class AppBar extends StatelessWidget {
       top: 0,
       left: 0,
       right: 0,
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
-        child: Row(
-          children: <Widget>[
-            Text(
-              'SY',
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-            Spacer(),
-            Icon(Icons.menu),
-          ],
+      child: MapHider(
+              child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 24),
+          child: Row(
+            children: <Widget>[
+              Text(
+                'SY',
+                style: TextStyle(fontWeight: FontWeight.bold),
+              ),
+              Spacer(),
+              Icon(Icons.menu),
+            ],
+          ),
         ),
       ),
     );
@@ -208,10 +210,12 @@ class ArrowIcon extends StatelessWidget {
             right: 24,
             child: child);
       },
-      child: Icon(
-        Icons.keyboard_arrow_down,
-        color: lighterGrey,
-        size: 28,
+      child: MapHider(
+              child: Icon(
+          Icons.keyboard_arrow_down,
+          color: lighterGrey,
+          size: 28,
+        ),
       ),
     );
   }
@@ -231,11 +235,13 @@ class TravelDetailLabel extends StatelessWidget {
           ),
         );
       },
-      child: Padding(
-        padding: const EdgeInsets.only(left: 30.0),
-        child: Text(
-          'Travel details',
-          style: TextStyle(fontSize: 18, fontWeight: FontWeight.w300),
+      child: MapHider(
+              child: Padding(
+          padding: const EdgeInsets.only(left: 30.0),
+          child: Text(
+            'Travel details',
+            style: TextStyle(fontSize: 18, fontWeight: FontWeight.w300),
+          ),
         ),
       ),
     );
@@ -285,12 +291,14 @@ class StartTimeLabel extends StatelessWidget {
           ),
         );
       },
-      child: Align(
-        alignment: Alignment.centerRight,
-        child: Text(
-          '02:40 pm',
-          style: TextStyle(
-              fontSize: 14, fontWeight: FontWeight.w300, color: lighterGrey),
+      child: MapHider(
+              child: Align(
+          alignment: Alignment.centerRight,
+          child: Text(
+            '02:40 pm',
+            style: TextStyle(
+                fontSize: 14, fontWeight: FontWeight.w300, color: lighterGrey),
+          ),
         ),
       ),
     );
@@ -367,12 +375,14 @@ class DistanceLabel extends StatelessWidget {
           ),
         );
       },
-      child: Center(
-        child: Text(
-          '72 km.',
-          style: TextStyle(
-              fontSize: 16, fontWeight: FontWeight.bold, color: white),
-        ),
+      child: MapHider(
+              child: Center(
+            child: Text(
+              '72 km.',
+              style: TextStyle(
+          fontSize: 16, fontWeight: FontWeight.bold, color: white),
+            ),
+          ),
       ),
     );
   }
@@ -721,17 +731,19 @@ class LeopardImage extends StatelessWidget {
           );
         },
         child: IgnorePointer(
-            child: Stack(
+            child: MapHider(
+                          child: Stack(
           children: <Widget>[
-            Image.asset(
-              'assets/leopard_shadow.png',
-              colorBlendMode: BlendMode.hue,
-            ),
-            Image.asset(
-              'assets/leopard.png',
-            )
+              Image.asset(
+                'assets/leopard_shadow.png',
+                colorBlendMode: BlendMode.hue,
+              ),
+              Image.asset(
+                'assets/leopard.png',
+              )
           ],
-        )));
+        ),
+            )));
   }
 }
 
@@ -756,11 +768,13 @@ class VultureImage extends StatelessWidget {
         );
       },
       child: IgnorePointer(
-        child: Padding(
-          padding: const EdgeInsets.only(bottom: 90.0),
-          child: Image.asset(
-            'assets/vulture.png',
-            height: MediaQuery.of(context).size.height / 2.5,
+        child: MapHider(
+                  child: Padding(
+            padding: const EdgeInsets.only(bottom: 90.0),
+            child: Image.asset(
+              'assets/vulture.png',
+              height: MediaQuery.of(context).size.height / 2.5,
+            ),
           ),
         ),
       ),
@@ -791,6 +805,26 @@ class BackgroundImage extends StatelessWidget {
               ),
             ),
           ),
+        );
+      },
+    );
+  }
+}
+
+class MapHider extends StatelessWidget {
+
+  final Widget child;
+
+  const MapHider({Key key,@required this.child}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<MapAnimationNotifier>(
+      child: child,
+      builder: (context, notifier, child){
+        return Opacity(
+          opacity: 1.0 - notifier.value,
+          child: child,
         );
       },
     );
